@@ -1,0 +1,3 @@
+input: 2 lists, each having 1000 elements.
+output: distance as u64
+

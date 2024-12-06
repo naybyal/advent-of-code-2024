@@ -1,5 +1,6 @@
 use std::env;
 use std::fs;
+use std::collections::HashMap;
 
 fn main() {
     let file_path = "./input.txt";
@@ -37,4 +38,18 @@ fn main() {
     //  add up the distances and print it 
     let total_distance: i32 = distance_list.iter().sum();
     println!("Total distance : {}", total_distance);
+
+    // computing similarity score
+    let mut frequency_map = HashMap::new();
+    for &num in &list2 {
+        *frequency_map.entry(num).or_insert(0) += 1;
+    }
+
+    let similarity_scores: Vec<i32> = list1.iter()
+        .map(|&num| num * frequency_map.get(&num).unwrap_or(&0))
+        .collect();
+
+    // calculating the total similary score
+    let total_similarity_score: i32 = similarity_scores.iter().sum();
+    println!("Total similarity score : {}", total_similarity_score)
 }

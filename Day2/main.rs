@@ -2,7 +2,6 @@ use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
 
-// Function to check if a report is safe (strictly increasing or decreasing, with valid differences)
 fn check_safety(levels: &[i32]) -> bool {
     let mut increasing = true;
     let mut decreasing = true;
@@ -24,10 +23,10 @@ fn check_safety(levels: &[i32]) -> bool {
     increasing || decreasing // Safe if strictly increasing or decreasing
 }
 
-// Function to check if removing one level makes the report safe
+// to check if removing one level makes the report safe
 fn check_safety_with_one_removal(levels: &[i32]) -> bool {
     for i in 0..levels.len() {
-        // Create a temporary vector with one less element
+        // create a temporary vector with one less element
         let mut temp_levels = Vec::with_capacity(levels.len() - 1);
         for j in 0..levels.len() {
             if j != i {
@@ -35,13 +34,12 @@ fn check_safety_with_one_removal(levels: &[i32]) -> bool {
             }
         }
 
-        // Check if the report becomes safe after removal
         if check_safety(&temp_levels) {
             return true;
         }
     }
 
-    false // If no removal makes it safe, return false
+    false // if no removal makes it safe, return false
 }
 
 fn main() -> io::Result<()> {
@@ -70,7 +68,7 @@ fn main() -> io::Result<()> {
     Ok(())
 }
 
-// Helper function to read lines from a file
+// to read lines from a file
 fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
 where
     P: AsRef<Path>,

@@ -3,10 +3,12 @@ use std::fs;
 use std::collections::HashMap;
 
 fn main() {
+    // read the lists from the input file 
     let file_path = "./input.txt";
     let contents = fs::read_to_string(file_path)
-                        .expect("Should be able to read the file.");
-    // println!("{}", contents);    // displaying the contents of the file 
+                        .expect("Should be able to read the file."); 
+
+    //  seperate the file contents into two different lists based on whitespace 
     let mut list1 = Vec::new();
     let mut list2 = Vec::new();
 
@@ -19,15 +21,9 @@ fn main() {
         }
     }
 
-    // println!("List 1: {:?}", list1);
-    // println!("List 2: {:?}", list2);
-
-    // sort the lists
+    // sort the lists (ascending order)
     list1.sort();
     list2.sort();
-
-    // println!("Sorted List 1: {:?}", list1);
-    // println!("Sorted List 2: {:?}", list2);
 
     // get the distance for each index
     let distance_list: Vec<i32> = list1.iter()

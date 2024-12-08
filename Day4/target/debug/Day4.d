@@ -1,1 +1,0 @@
-/home/nabiel/Documents/Code/advent-of-code/2024/Day4/target/debug/Day4: /home/nabiel/Documents/Code/advent-of-code/2024/Day4/src/input.txt /home/nabiel/Documents/Code/advent-of-code/2024/Day4/src/main.rs

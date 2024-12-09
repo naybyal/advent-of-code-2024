@@ -1,32 +1,44 @@
-use std::fs::File;
-use std::path::Path;
-use std::io::{self, BufRead};
+use std::fs;
 use regex::Regex;
 
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where 
-    P: AsRef<Path> {
-    let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
+// Function to read input from a file
+fn read_input(input_file_dir: &str) -> String {
+    fs::read_to_string(input_file_dir).expect("Failed to read file")
+}
+
+// PART 1: Function to sum multiplications
+fn sum_multiplications(memory: &[String]) -> i32 {
+    let pattern = Regex::new(r"mul\((\d{1,3}),(\d{1,3})\)").unwrap();
+    let mut total = 0;
+
+    for element in memory {
+        for cap in pattern.captures_iter(element) {
+            let x: i32 = cap[1].parse().unwrap();
+            let y: i32 = cap[2].parse().unwrap();
+            total += x * y;
+        }
+    }
+    total
+}
+
+// PART 2: Function to remove inactive memory
+fn remove_inactive_memory(memory: &str) -> Vec<String> {
+    memory
+        .split("do()")
+        .filter_map(|e| e.split("don't()").next())
+        .map(String::from)
+        .collect()
+}
+
+// Function to sum multiplications in active memory
+fn sum_multiplications_activation(memory: &str) -> i32 {
+    let filtered_memory = remove_inactive_memory(memory);
+    sum_multiplications(&filtered_memory)
 }
 
 fn main() {
-    let path = "input.txt";
-    let mut sum_of_products = 0;
-    let mul_regex = Regex::new(r"mul\((\d+),(\d+)\)").unwrap();
-
-    if let Ok(lines) = read_lines(path) {
-        for line in lines {
-            if let Ok(content) = line {
-		            for captures in mul_regex.captures_iter(&content) {
-                    let x: i32 = captures[1].parse().unwrap(); // parse the first number
-                    let y: i32 = captures[2].parse().unwrap(); // parse the second number
-                    sum_of_products += x * y;
-                }
-            }
-        }
-    }
-    
-    println!("Sum of all products: {}", sum_of_products);
-
+    let input = read_input("./input.txt");
+    let result = sum_multiplications_activation(&input);
+    println!("{}", result);
 }
+
